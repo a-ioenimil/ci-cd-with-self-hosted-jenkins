@@ -9,7 +9,7 @@ resource "aws_kms_key" "terraform_key" {
 }
 
 resource "aws_kms_alias" "key_alias" {
-  name          = "alias/terraform-bootstrap-key"
+  name          = "alias/jenkins-lab-bootstrap-key"
   target_key_id = aws_kms_key.terraform_key.key_id
 }
 
@@ -22,4 +22,13 @@ resource "aws_s3_bucket_versioning" "ver" {
   versioning_configuration { status = "Enabled" }
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
+  bucket = aws_s3_bucket.state_bucket.id
 
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.terraform_key.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
