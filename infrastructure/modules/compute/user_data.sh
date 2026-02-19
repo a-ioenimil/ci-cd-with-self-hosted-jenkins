@@ -39,4 +39,14 @@ docker run -d \
   -v /var/run/docker.sock:/var/run/docker.sock \
   jenkins/jenkins:lts-jdk17
 
+echo "Waiting for Jenkins to generate admin password..."
+while ! docker exec jenkins test -f /var/jenkins_home/secrets/initialAdminPassword; do
+  sleep 2
+done
+
+echo "---------------------------------------------------"
+echo "Jenkins Initial Admin Password:"
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+echo -e "\n---------------------------------------------------"
+
 echo "Jenkins setup complete."

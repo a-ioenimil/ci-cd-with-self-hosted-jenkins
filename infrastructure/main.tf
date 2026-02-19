@@ -17,7 +17,7 @@ module "compute" {
 
   project_name          = var.project_name
   vpc_id                = module.networking.vpc_id
-  subnet_id             = module.networking.private_subnets[0] # Place Jenkins in private subnet
+  subnet_id             = module.networking.private_subnets[0]
   instance_type         = var.instance_type
   instance_profile_name = module.security.instance_profile_name
   security_group_id     = module.security.jenkins_sg_id
@@ -37,4 +37,13 @@ module "ecr" {
   source = "./modules/ecr"
 
   repository_name = "${var.project_name}-repo"
+}
+
+module "ecs" {
+  source = "./modules/ecs"
+
+  project_name                = var.project_name
+  region                      = var.region
+  ecs_task_execution_role_arn = module.security.ecs_task_execution_role_arn
+  ecs_task_role_arn           = module.security.ecs_task_role_arn
 }
