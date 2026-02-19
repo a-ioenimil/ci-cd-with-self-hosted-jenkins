@@ -27,3 +27,13 @@ output "jenkins_private_ip" {
   description = "Jenkins controller private IP — used as JNLP tunnel address"
   value       = module.compute.jenkins_private_ip
 }
+
+output "ssm_role_arn" {
+  description = "ARN of the IAM role for SSM"
+  value       = module.security.ssm_role_arn
+}
+
+output "task_definition_arn" {
+  description = "ARN of the ECS task definition"
+  value       = module.ecs.task_definition_arn
+}
