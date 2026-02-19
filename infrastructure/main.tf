@@ -32,3 +32,9 @@ module "alb" {
   alb_security_group_id = module.security.alb_sg_id
   target_instance_id    = module.compute.jenkins_instance_id
 }
+
+module "ecr" {
+  source = "./modules/ecr"
+
+  repository_name = "${var.project_name}-repo"
+}
