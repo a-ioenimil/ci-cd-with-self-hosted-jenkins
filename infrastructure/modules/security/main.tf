@@ -1,4 +1,3 @@
-# Security Group for ALB
 resource "aws_security_group" "alb_sg" {
   name        = "${var.project_name}-alb-sg"
   description = "Allow HTTP inbound traffic"
